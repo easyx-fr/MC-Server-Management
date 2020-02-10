@@ -1,5 +1,9 @@
 # MC-Server-Management
 
+# Prérequis : 
+- Avoir installer screen (apt-get install screen)
+- Avoir installer java (apt-get install default-jdk)
+
 # Installation :
 - Télécharger le fichier server_management.sh
 - Envoyé le sur votre serveur et placé le ou vous voulez
