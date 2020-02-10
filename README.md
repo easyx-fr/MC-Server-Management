@@ -12,7 +12,7 @@ Si vous le souhaiter vous pouvez vous faire un racourcci pour exécuter le scrip
 - Maintenant vous allez ajouté la ligne suivante : alias mc='chemin_du_fichier/server_management.sh'
 - Faites Ctrl + X, taper yes ou oui et enter
 
-Maintenant si vous tapez mc sur votre ligne de commande cela vous ouvrira direcment le script !
+Maintenant si vous tapez mc sur votre ligne de commande cela vous ouvrira directement le script !
 
 # Compatibilitées :
 Ce script a été tester seulement sur DEBIAN 9, il risque donc d'avoir de potentielle erreur sûre d'autres version.
