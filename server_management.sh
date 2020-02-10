@@ -276,6 +276,7 @@ do
             statusServer
         ;;
         "exit" | "quit" | "bye" )
+            echo -e "\033[0m"
             quit
         ;;
         "help" | "aide" | "?" )
