@@ -15,4 +15,4 @@ Si vous le souhaiter vous pouvez vous faire un racourcci pour exécuter le scrip
 Maintenant si vous taper mc sur votre ligne de commande cela vous ouvrira direcment le script !
 
 # Compatibilitées :
-Ce script a été tester seulement sur DEBIAN 9, il risque donc d'avoir de potentiel erreur sur d'autre version.
+Ce script a été tester seulement sur DEBIAN 9, il risque donc d'avoir de potentielle erreur sûre d'autres version.
