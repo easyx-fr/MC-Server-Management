@@ -3,21 +3,23 @@
 #-------####-------#
 # Server Management
 # By EasYx_ 
-# Version : 1.0
+# Version : 1.1
 #------------------#
 
 #La variable info permet de terminer le script si elle vaut "yes" :
 info="no"
 
-#La tableau serveur contient la liste des serveurs minecraft :
-serveur=("bungee" "hub1")
+#La tableau serveur contient la liste des serveurs :
+server=("bungee" "hub1")
 
-#La variabe chemin_serveur contient le chemin ou se trouve les serveurs minecraft :
-chemin_serveur="/home/minecraft/"
+#launchCMD=["bungee"]=""
+
+#La variabe path_server contient le chemin ou se trouve les serveurs minecraft :
+path_server="/home/minecraft/"
  
 #Cette fonction permet de vérifier si un serveur existe ou non (liée au tableau 'serveur')
-inArrayServeur(){
-    for i in "${serveur[@]}" 
+inArrayServer(){
+    for i in "${server[@]}" 
     do
         if [ "$i" = "$1" ]; then
             echo $i
@@ -47,8 +49,8 @@ msgBv()
     echo -e "                                                            |___/                               "
 }
 
-listeCmd(){
-    retour
+listCmd(){
+    returnMenu
     echo -e "\n\033[1;33m------------------- [Liste des actions à effectuer] -------------------\033[0m"
     echo -e "\033[1;32mconsole, csl : \033[1;33mPermet de se connecter a la console d'un serveur\033[0m"
     echo -e "\033[1;32mstart, on, launch : \033[1;33mPermet de démarrer un serveur\033[0m"
@@ -56,7 +58,7 @@ listeCmd(){
     echo -e "\033[1;32mrestart, reboot : \033[1;33mPermet de redémarrer un serveur\033[0m"
     echo -e "\033[1;32mstatut, status, sta : \033[1;33mPermet d'afficher le statut des serveurs\033[0m"
     echo -e "\033[1;32mhelp, aide, ? : \033[1;33mPermet d'afficher la liste des commandes\033[0m"
-    echo -e "\033[1;32mexit, quit : \033[1;33mPermet de quitter Server Management\033[0m"
+    echo -e "\033[1;32mexit, quit : \033[1;33mPermet de quitter Obsifight Server\033[0m"
     echo -e "\033[1;33m-----------------------------------------------------------------------\033[0m"
 }
 
@@ -64,7 +66,7 @@ consoleServer(){
     echo -n -e "\033[1;33mSur quel serveur voulez vous connecter : \033[1;36m"
     read nameserver
     case $nameserver in
-        $(inArrayServeur "$nameserver") )
+        $(inArrayServer "$nameserver") )
             clear
             echo -e "\033[1;31m!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
             echo -e "\n! N'oubliez surtout pas de faire CTRL + A + D pour sortir de la console !"
@@ -72,15 +74,14 @@ consoleServer(){
             echo -e "\n\033[1;32mConnexion\033[5;32m...\033[0m"
             sleep 5
             screen -r $nameserver
-            clear
-            msgBv
+            returnMenu
             echo -e "\n\033[1;32mVous vous êtes bien déconnecté de la console du serveur \033[4;33m$nameserver\033[0m \033[1;32m!\033[0m\n" 
         ;;
         "exit" )
             quit
         ;;
         "return" )
-            retour
+            returnMenu
         ;;
         * ) 
             listServer
@@ -94,7 +95,7 @@ startServer(){
     PID=$(ps ax | grep "$1" | grep -v grep | awk '{ print $1 }')
     if [ -z "$PID" ]; then
         screen -dmS $1
-        screen -S $1 -p 0 -U -X stuff "cd $chemin_serveur$1/^M"
+        screen -S $1 -p 0 -U -X stuff "cd $path_server$1/^M"
         screen -S $1 -p 0 -U -X stuff "./$1.sh^M"
     else
         screen -S $1 -p 0 -U -X stuff "./$1.sh^M"
@@ -129,7 +130,7 @@ actionServer(){
         "all" )
             stopfunction="no"
             if [ "$3" = "start" ]; then
-                for i in "${serveur[@]}" 
+                for i in "${server[@]}" 
                 do
                     if [ "$(onRunning "$i")" = "no" ]; then
                         startServer "$i"
@@ -141,7 +142,7 @@ actionServer(){
                 done
             elif [ "$3" = "restart" ]; then
                 echo -e "\n\033[1;32mRedémarrage des serveurs en cours\033[5;32m...\033[0m"
-                for i in "${serveur[@]}" 
+                for i in "${server[@]}" 
                 do
                     if [ "$(onRunning "$i")" = "no" ]; then
                         startServer "$i"
@@ -153,7 +154,7 @@ actionServer(){
                 done
                 sleep 4
             elif [ "$3" = "stop" ]; then
-                for i in "${serveur[@]}" 
+                for i in "${server[@]}" 
                 do
                     if [ "$(onRunning "$i")" = "yes" ]; then
                         stopServer "$i"
@@ -167,11 +168,11 @@ actionServer(){
             if [ "$stopfunction" = "yes" ]; then
                 return
             else
-                retour
+                returnMenu
                 echo -e "\n\033[1;32mTous les serveurs ont été "$2"s !\033[0m"
             fi 
         ;;
-        $(inArrayServeur "$nameserver" ) )
+        $(inArrayServer "$nameserver" ) )
             if [ "$3" = "start" ]; then 
                 if [ "$(onRunning "$nameserver")" = "no" ]; then
                     startServer "$nameserver"
@@ -192,7 +193,7 @@ actionServer(){
             if [ "$stopfunction" = "yes" ]; then
                 return
             else
-                retour
+                returnMenu
                 echo -e "\n\033[1;32mLe serveur $nameserver a été $2 !\033[0m"
             fi 
         ;;
@@ -200,7 +201,7 @@ actionServer(){
             quit
         ;;
         "return" )
-            retour
+            returnMenu
         ;;
         * )
             listServer
@@ -210,11 +211,10 @@ actionServer(){
 }
 
 statusServer(){
-    clear
-    msgBv
+    returnMenu
     echo -e "\n\033[1;33m----------------------- [Statuts des serveurs] -----------------------\033[0m"
     echo -e "\033[1;33mInformation de tout les serveurs :\033[0m" 
-    for i in "${serveur[@]}" 
+    for i in "${server[@]}" 
     do
         PID=$(ps ax | grep "$i".sh | grep -v grep | awk '{ print $1 }')
         if [ -z "$PID" ]; then
@@ -228,18 +228,18 @@ statusServer(){
 
 
 listServer(){
-    for (( i=0; i<${#serveur[@]}; i++ )) 
+    for (( i=0; i<${#server[@]}; i++ )) 
     do  
-        if [ "${#displayserv[@]}" != "${#serveur[@]}" ]; then
-            displayserv+=( "${serveur[$i]}," )
+        if [ "${#displayserv[@]}" != "${#server[@]}" ]; then
+            displayserv+=( "${server[$i]}," )
         fi
     done
     echo -e "\033[1;33mListe des serveurs disponible : \033[1;32m${displayserv[@]} all \033[0m"
 }
 
-retour(){
+returnMenu(){
     clear
-    msgBv
+    msgWlc
 }
 
 quit(){
@@ -252,8 +252,7 @@ quit(){
                     # Corp Principal du Script #
 ######################################################################
 
-clear
-msgBv
+returnMenu
 while [ "$info" = "no" ]
 do
     echo -n -e "\n\033[1;33mQue voulez vous faire : \033[1;36m"
@@ -283,7 +282,7 @@ do
             listeCmd
         ;;
         * )
-            listeCmd
+            listCmd
         ;;
     esac
 done
