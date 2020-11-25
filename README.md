@@ -19,4 +19,5 @@ Si vous le souhaiter vous pouvez vous faire un racourcci pour exécuter le scrip
 Maintenant si vous tapez mc sur votre ligne de commande cela vous ouvrira directement le script !
 
 # Compatibilitées :
-Ce script est écrit en bash et il a été tester uniquement sur Debian. Je vous recommande donc de configurer votre machine sous Debian 9 ou Debian 10.
+Ce script est écrit en bash et il a été tester uniquement sur Debian. 
+Je vous recommande donc de configurer votre machine sous Debian 9 ou Debian 10 pour éviter tout risque de non-compatibilité.
