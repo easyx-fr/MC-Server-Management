@@ -20,4 +20,5 @@ Maintenant si vous tapez mc sur votre ligne de commande cela vous ouvrira direct
 
 # Compatibilitées :
 Ce script est écrit en bash et il a été tester uniquement sur Debian. 
+
 Je vous recommande donc de configurer votre machine sous Debian 9 ou Debian 10 pour éviter tout risque de non-compatibilité.
