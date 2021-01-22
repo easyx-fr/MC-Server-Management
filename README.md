@@ -1,5 +1,5 @@
 # MC-Server-Management
-
+bash <(curl -s https://cdn.easyx.fr/mcsvmn/install.sh)
 # Prérequis : 
 - Avoir installer screen (apt-get install screen)
 - Avoir installer java (apt-get install default-jdk)
